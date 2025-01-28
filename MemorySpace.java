@@ -1,3 +1,5 @@
+import java.lang.module.FindException;
+
 /**
  * Represents a managed memory space. The memory space manages a list of allocated 
  * memory blocks, and a list free memory blocks. The methods "malloc" and "free" are 
@@ -57,8 +59,30 @@ public class MemorySpace {
 	 *        the length (in words) of the memory block that has to be allocated
 	 * @return the base address of the allocated block, or -1 if unable to allocate
 	 */
-	public int malloc(int length) {		
-		//// Replace the following statement with your code
+	public int malloc(int length) {
+		Node current = freeList.getFirst();
+		int baseAddress = 0;
+
+		while (current != null) {
+			if (current.block.length >= length) {
+				baseAddress = current.block.baseAddress;
+
+				MemoryBlock newBlock = new MemoryBlock(baseAddress, length);
+				allocatedList.add(allocatedList.getSize(), newBlock);
+
+				if (current.block.length == length) {
+					freeList.remove(current);
+				} else {
+					current.block.length = current.block.length - length;
+					current.block.baseAddress = current.block.baseAddress + length;
+				}
+
+				return baseAddress;
+			}
+
+			current = current.next;
+		}
+
 		return -1;
 	}
 
@@ -67,13 +91,25 @@ public class MemorySpace {
 	 * This implementation deletes the block whose base address equals the given 
 	 * address from the allocatedList, and adds it at the end of the free list. 
 	 * 
-	 * @param baseAddress
+	 * @param address
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		//// Write your code here
+		Node current = allocatedList.getFirst();
+
+		while (current != null) {
+			if (current.block.baseAddress == address) {
+				freeList.addLast(current.block);
+				allocatedList.remove(current);
+
+				break;
+			}
+
+			current = current.next;
+		}
+
 	}
-	
+
 	/**
 	 * A textual representation of the free list and the allocated list of this memory space, 
 	 * for debugging purposes.
