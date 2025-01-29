@@ -95,6 +95,8 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
+		if (allocatedList.getSize() == 0) return;
+
 		Node current = allocatedList.getFirst();
 
 		while (current != null) {
