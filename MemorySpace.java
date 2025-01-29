@@ -95,22 +95,23 @@ public class MemorySpace {
 	 *            the starting address of the block to freeList
 	 */
 	public void free(int address) {
-		if (allocatedList.getSize() == 0) throw new IllegalArgumentException("index must be between 0 and size");
-		if (freeList.getSize() == 0) throw new IllegalArgumentException("index must be between 0 and size");
-
-		Node current = allocatedList.getFirst();
-
-		while (current != null) {
-			if (current.block.baseAddress == address) {
-				freeList.addLast(current.block);
-				allocatedList.remove(current);
-
-				break;
-			}
-
-			current = current.next;
+		if (allocatedList.getSize() == 0) {
+			throw new IllegalArgumentException("index must be between 0 and size");
 		}
 
+		Node firstNode =allocatedList.getFirst();
+		
+		while(firstNode !=null) {
+			MemoryBlock allocatedNode = firstNode .block;
+
+			if(allocatedNode.baseAddress == address) {
+				allocatedList.remove(allocatedNode);
+				freeList.addLast(allocatedNode);
+				return;
+			}
+
+			firstNode =firstNode .next;
+		}
 	}
 
 	/**
