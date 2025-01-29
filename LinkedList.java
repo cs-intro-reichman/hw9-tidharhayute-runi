@@ -51,7 +51,7 @@ public class LinkedList {
 	 */
 	public Node getNode(int index) {
 		if (index < 0 || index > size) {
-			throw new IllegalArgumentException("Index must be between 0 and size");
+			throw new IllegalArgumentException("index must be between 0 and size");
 		}
 
 		Node currentNode = first;
@@ -87,7 +87,7 @@ public class LinkedList {
 	 */
 	public void add(int index, MemoryBlock block) {
 		if (index < 0 || index > size)
-			throw new IllegalArgumentException("Index is negative or greater than the list's size.");
+			throw new IllegalArgumentException("index must be between 0 and size");
 
 		Node newNode = new Node(block);
 
@@ -146,7 +146,7 @@ public class LinkedList {
 	 */
 	public MemoryBlock getBlock(int index) {
 		if (index < 0 || index > size)
-			throw new IllegalArgumentException("Index is negative or greater than the list's size.");
+			throw new IllegalArgumentException("index must be between 0 and size.");
 
 		if (first == null) throw new IllegalArgumentException("Null list");
 
