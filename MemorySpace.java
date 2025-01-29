@@ -96,6 +96,7 @@ public class MemorySpace {
 	 */
 	public void free(int address) {
 		if (allocatedList.getSize() == 0) return;
+		if (freeList.getSize() == 0) return;
 
 		Node current = allocatedList.getFirst();
 
