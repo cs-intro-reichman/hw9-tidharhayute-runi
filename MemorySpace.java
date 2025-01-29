@@ -125,7 +125,7 @@ public class MemorySpace {
 	 */
 	public void defrag() {
 		if (freeList.getSize() <= 1) return;
-		
+
 		freeList.sort();
 		Node current = freeList.getFirst();
 
